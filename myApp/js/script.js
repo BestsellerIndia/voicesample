@@ -159,5 +159,5 @@ app.config(function (
             controller: "voiceCtrl"
         })
 
-    $urlRouterProvider.otherwise("/");
+    $urlRouterProvider.otherwise("/login");
 });
