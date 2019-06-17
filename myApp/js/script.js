@@ -1,4 +1,34 @@
 var app = angular.module('app', ['ui.router']);
+
+app.controller('loginCtrl', function ($scope, $http, $state) {
+
+
+    $scope.data = {
+        Employee: {
+            code: null,
+            password: null,
+            device_id: "",
+            device_token: "",
+            Platform: ""
+        }
+    }
+    $scope.error = false;
+    $scope.refreshError = function () {
+        $scope.error = false;
+    }
+    $scope.login = function () {
+
+        $http.post("https://mybestconnect.bestseller.com/Employees/login", $scope.data)
+            .then(function (data) {
+                if (data.data && data.data.responseArray.message &&
+                    data.data.responseArray.message.success == "You are logged in successfully.") {
+                    $state.go('voice');
+                } else {
+                    $scope.error = true;
+                }
+            })
+    }
+});
 app.controller('voiceCtrl', function ($scope, $http) {
     var swiper = null;
     $http.get("./voice-script.json").then(function (data) {
@@ -151,7 +181,7 @@ app.config(function (
         .state("login", {
             url: "/login",
             templateUrl: "login.html",
-            controller: "voiceCtrl"
+            controller: "loginCtrl"
         })
         .state("voice", {
             url: "/voice",
