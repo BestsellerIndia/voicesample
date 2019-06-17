@@ -1,4 +1,4 @@
-var app = angular.module('app', []);
+var app = angular.module('app', ['ui.router']);
 app.controller('voiceCtrl', function ($scope, $http) {
     var swiper = null;
     $http.get("./voice-script.json").then(function (data) {
@@ -40,7 +40,7 @@ app.controller('voiceCtrl', function ($scope, $http) {
         var end = mod == 4 ? 338 : (start + 80);
         $scope.moduleWise = $scope.script.slice(start, end);
         if (mod > 1) {
-            swiper.slideTo(0, 1000,false);
+            swiper.slideTo(0, 1000, false);
             setTimeout(() => {
                 swiper.autoplay.start();
             }, 1000);
@@ -139,4 +139,25 @@ app.controller('voiceCtrl', function ($scope, $http) {
         li.appendChild(link);
         recordingsList.appendChild(li);
     }
+});
+// Link all the JS Docs here
+
+// Define all the routes below
+app.config(function (
+    $stateProvider,
+    $urlRouterProvider
+) {
+    $stateProvider
+        .state("login", {
+            url: "/login",
+            templateUrl: "login.html",
+            controller: "voiceCtrl"
+        })
+        .state("voice", {
+            url: "/voice",
+            templateUrl: "voice-sample.html",
+            controller: "voiceCtrl"
+        })
+
+    $urlRouterProvider.otherwise("/");
 });

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="app">
 
 <head>
   <meta charset="UTF-8">
@@ -12,41 +12,18 @@
   <script src="js/app.js"></script>
   <script src="js/script.js"></script>
   <link rel="stylesheet" href="bower_components/swiper/dist/css/swiper.min.css">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
   <script src="bower_components/swiper/dist/js/swiper.min.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 </head>
 
-<body>
-  <div ng-app="app">
-    <div ng-controller="voiceCtrl">
-      <div class="title">
-        <h1>Bestseller</h1>
-        <h2>Voice Recorder Portal</h2>
-      </div>
-      <div id="controls">
-        <button ng-click="setModule(1)" ng-disabled="mod == 1">Module 1</button>
-        <button ng-click="setModule(2)" ng-disabled="mod == 2">Module 2</button>
-        <button ng-click="setModule(3)" ng-disabled="mod == 3">Module 3</button>
-        <button ng-click="setModule(4)" ng-disabled="mod == 4">Module 4</button>
-      </div>
-      <div class="swiper-container">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide" ng-repeat="slide in moduleWise track by $index">{{slide}}</div>
-        </div>
-        <!-- <div class="swiper-pagination"></div> -->
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-      </div>
-      <div style="width:50%;margin: 0 auto; text-align: center">
-        <div id="controls">
-          <button id="recordButton" ng-click="startRecording()" ng-disabled="recordBtn">Record</button>
-          <button id="pauseButton" ng-click="pauseRecording()" ng-disabled="pauseBtn">Pause</button>
-          <button id="stopButton" ng-click="stopRecording()" ng-disabled="stopBtn">Stop</button>
-        </div>
-        <div id="formats">Format: start recording to see sample rate</div>
-        <h3>Recordings</h3>
-        <ol id="recordingsList"></ol>
-      </div>
+<body class="home-page">
+  <div >
 
+    <div ng-controller="voiceCtrl">
+     
+      <div  ui-view></div>
     </div>
   </div>
 </body>

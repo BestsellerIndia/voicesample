@@ -31,6 +31,7 @@ button {
   height: 2.5rem;
   min-width: 2rem;
   border: none;
+  margin: 5px!important;
   border-radius: 0.15rem;
   background: #ed341d;
   margin-left: 2px;
@@ -93,8 +94,8 @@ li {
 .swiper-slide {
   text-align: center;
   font-size: 2em!important;
-  background: black!important;
-  color: white!important;
+  background: white!important;
+  color: black!important;
   border-radius: 40px;
 
   /* Center slide text vertically */
@@ -110,4 +111,35 @@ li {
   -ms-flex-align: center;
   -webkit-align-items: center;
   align-items: center;
+}
+.home-page {
+  background: url(../img/body-bg.jpg) left top no-repeat;
+  background-size: cover;
+  -moz-background-size: cover;
+  -webkit-background-size: cover;
+}
+.logo{
+  text-align: center;
+  display: block;
+  padding: 20px;
+}
+.login-container {
+  max-width: 300px;
+  margin: 30px auto 0;
+  text-align: center;
+}
+.container {
+  width: 96%;
+  max-width: none !important;
+}
+.wrapper {
+  padding-bottom: 47px;
+}
+.home-page #header {
+  text-align: center;
+  padding-bottom: 7px;
+}
+
+#content {
+  padding-bottom: 0px;
 }
