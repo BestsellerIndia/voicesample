@@ -150,3 +150,6 @@ li {
   color: white!important;
   border: solid 1px transparent;
 }
+.logo img{
+  width: 12rem;
+}
