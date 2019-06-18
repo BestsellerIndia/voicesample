@@ -33,5 +33,5 @@ app.get("/", function (req, res, next) {
 //   if (err) throw err;
 //   dbo = db.db("mydb");
 // });
-app.listen(process.env.PORT || 8080, "localhost");
+app.listen(process.env.PORT || 8080);
 console.log("Server is Listening on port 8080");
