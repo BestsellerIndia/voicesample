@@ -1,7 +1,7 @@
 var express = require("express");
-var multer  =   require('multer');
+var multer = require('multer');
 var app = express();
-global.dbo ={};
+global.dbo = {};
 app.use(express.static("myApp")); // myApp will be the same folder name.
 app.get("/", function (req, res, next) {
     res.redirect("/");
@@ -33,5 +33,5 @@ app.get("/", function (req, res, next) {
 //   if (err) throw err;
 //   dbo = db.db("mydb");
 // });
-app.listen(8080, "localhost");
+app.listen(process.env.PORT || 8080, "localhost");
 console.log("Server is Listening on port 8080");
