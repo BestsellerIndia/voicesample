@@ -3,6 +3,11 @@ var bestConnectUrl = "https://mybestconnect.bestseller.com/Employees/login";
 var voicePortalUrl = "http://localhost:8080/api/"
 
 app.controller('loginCtrl', function ($scope, $http, $state) {
+    if (!_.isEmpty($.jStorage.get("user"))) {
+        $state.go("voice", {
+            module: $.jStorage.get("user").module
+        })
+    }
     $scope.data = {
         Employee: {
             code: null,
@@ -27,7 +32,7 @@ app.controller('loginCtrl', function ($scope, $http, $state) {
                             name: data.data.responseArray.results.name
                         })
                         .then(function (data1) {
-                            $.jStorage.set("user", data.data.data);
+                            $.jStorage.set("user", data1.data.data);
                             $state.go('voice', {
                                 module: data1.data.data.module
                             });
@@ -39,6 +44,16 @@ app.controller('loginCtrl', function ($scope, $http, $state) {
     }
 });
 app.controller('voiceCtrl', function ($scope, $http, $stateParams) {
+    if (_.isEmpty($.jStorage.get("user"))) {
+        $state.go("login");
+    } else {
+        $scope.user = $.jStorage.get("user");
+    }
+
+    $scope.logout = function () {
+        $.jStorage.flush();
+        $state.go("login");
+    }
     var swiper = null;
     $http.get("./voice-script.json").then(function (data) {
         // console.log(data.data);

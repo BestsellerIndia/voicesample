@@ -6,8 +6,8 @@
         <h2 style="color:white">Voice Recorder Portal</h2>
     </div>
     <div class="header-bar">
-        <span class="name">Hi Ganesh</span>
-        <span class="logout">Logout</span>
+        <span class="name">Hi, {{user.name}}</span>
+        <span class="logout" ng-click="logout()">Logout</span>
     </div>
     <!-- <div id="controls">
         <button ng-click="setModule(1)" ng-disabled="mod == 1">Module 1</button>
