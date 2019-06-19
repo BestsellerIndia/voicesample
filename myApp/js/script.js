@@ -27,6 +27,7 @@ app.controller('loginCtrl', function ($scope, $http, $state) {
                             name: data.data.responseArray.results.name
                         })
                         .then(function (data1) {
+                            $.jStorage.set("user", data.data.data);
                             $state.go('voice', {
                                 module: data1.data.data.module
                             });
