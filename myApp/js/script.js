@@ -43,7 +43,7 @@ app.controller('loginCtrl', function ($scope, $http, $state) {
             })
     }
 });
-app.controller('voiceCtrl', function ($scope, $http, $stateParams) {
+app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
     if (_.isEmpty($.jStorage.get("user"))) {
         $state.go("login");
     } else {
