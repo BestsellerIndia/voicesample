@@ -5,12 +5,16 @@
         </header>
         <h2 style="color:white">Voice Recorder Portal</h2>
     </div>
-    <div id="controls">
+    <div class="header-bar">
+        <span class="name">Hi Ganesh</span>
+        <span class="logout">Logout</span>
+    </div>
+    <!-- <div id="controls">
         <button ng-click="setModule(1)" ng-disabled="mod == 1">Module 1</button>
         <button ng-click="setModule(2)" ng-disabled="mod == 2">Module 2</button>
         <button ng-click="setModule(3)" ng-disabled="mod == 3">Module 3</button>
         <button ng-click="setModule(4)" ng-disabled="mod == 4">Module 4</button>
-    </div>
+    </div> -->
     <div class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide" ng-repeat="slide in moduleWise track by $index">{{slide}}</div>

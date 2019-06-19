@@ -2,18 +2,23 @@
   padding: 0;
   margin: 0;
 }
+
 a {
   color: #337ab7;
 }
+
 p {
   margin-top: 1rem;
 }
+
 a:hover {
-  color:#23527c;
+  color: #23527c;
 }
+
 a:visited {
   color: #8d75a3;
 }
+
 body {
   margin: 1rem;
   padding: 1rem;
@@ -22,16 +27,18 @@ body {
   margin: 0 auto;
   position: relative;
 }
+
 #controls {
   display: flex;
   margin-top: 2rem;
 }
+
 #controls button {
   flex-grow: 1;
   height: 2.5rem;
   min-width: 2rem;
   border: none;
-  margin: 5px!important;
+  margin: 5px !important;
   border-radius: 0.15rem;
   background: #ed341d;
   margin-left: 2px;
@@ -40,62 +47,75 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  color:#ffffff;
+  color: #ffffff;
   font-weight: bold;
   font-size: 1rem;
 }
-#controls button:hover, button:focus {
+
+#controls button:hover,
+button:focus {
   outline: none;
   background: #c72d1c;
 }
+
 #controls button::-moz-focus-inner {
   border: 0;
 }
+
 #controls button:active {
   box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.2);
   line-height: 3rem;
 }
+
 #controls button:disabled {
   pointer-events: none;
   background: lightgray;
 }
+
 #controls button:first-child {
   margin-left: 0;
 }
+
 audio {
   display: block;
   width: 100%;
   margin-top: 0.2rem;
 }
+
 li {
   list-style: none;
   margin-bottom: 1rem;
 }
+
 #formats {
   margin-top: 0.5rem;
   font-size: 80%;
 }
-.single-script{
+
+.single-script {
   padding: 30px 10px;
   text-align: center;
   width: 100%;
   background: black;
   color: white;
 }
-.title{
+
+.title {
   width: 100%;
   text-align: center;
 }
+
 .swiper-container {
   width: 60%;
-  height: 300px;
+  height: 250px;
   margin: 20px auto !important;
 }
+
 .swiper-slide {
   text-align: center;
-  font-size: 2em!important;
-  background: white!important;
-  color: black!important;
+  font-size: 2em !important;
+  background: white !important;
+  color: black !important;
   border-radius: 40px;
 
   /* Center slide text vertically */
@@ -112,29 +132,35 @@ li {
   -webkit-align-items: center;
   align-items: center;
 }
+
 .home-page {
   background: url(../img/body-bg.jpg) left top no-repeat;
   background-size: cover;
   -moz-background-size: cover;
   -webkit-background-size: cover;
 }
-.logo{
+
+.logo {
   text-align: center;
   display: block;
   padding: 20px;
 }
+
 .login-container {
   max-width: 300px;
   margin: 30px auto 0;
   text-align: center;
 }
+
 .container {
   width: 96%;
   max-width: none !important;
 }
+
 .wrapper {
   padding-bottom: 47px;
 }
+
 .home-page #header {
   text-align: center;
   padding-bottom: 7px;
@@ -146,10 +172,30 @@ li {
 
 .login-btn {
   border-radius: 20px;
-  background: orangered!important;
-  color: white!important;
+  background: orangered !important;
+  color: white !important;
   border: solid 1px transparent;
 }
-.logo img{
+
+.logo img {
   width: 12rem;
+}
+
+.header-bar {
+  height: 2.5em;
+  background: #ffffff85;
+  border-radius: 20px;
+
+
+}
+
+.header-bar .name {
+  color: white;
+  font-size: 1em;
+}
+
+.header-bar .logout {
+  color: white;
+  font-size: 1em;
+  float: right;
 }

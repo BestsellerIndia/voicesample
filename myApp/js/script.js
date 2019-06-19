@@ -1,8 +1,8 @@
 var app = angular.module('app', ['ui.router']);
+var bestConnectUrl = "https://mybestconnect.bestseller.com/Employees/login";
+var voicePortalUrl = "http://localhost:8080/api/"
 
 app.controller('loginCtrl', function ($scope, $http, $state) {
-
-
     $scope.data = {
         Employee: {
             code: null,
@@ -18,18 +18,26 @@ app.controller('loginCtrl', function ($scope, $http, $state) {
     }
     $scope.login = function () {
 
-        $http.post("https://mybestconnect.bestseller.com/Employees/login", $scope.data)
+        $http.post(bestConnectUrl, $scope.data)
             .then(function (data) {
                 if (data.data && data.data.responseArray.message &&
                     data.data.responseArray.message.success == "You are logged in successfully.") {
-                    $state.go('voice');
+                    $http.post(voicePortalUrl + "employee/save", {
+                            code: data.data.responseArray.results.code,
+                            name: data.data.responseArray.results.name
+                        })
+                        .then(function (data1) {
+                            $state.go('voice', {
+                                module: data1.data.data.module
+                            });
+                        })
                 } else {
                     $scope.error = true;
                 }
             })
     }
 });
-app.controller('voiceCtrl', function ($scope, $http) {
+app.controller('voiceCtrl', function ($scope, $http, $stateParams) {
     var swiper = null;
     $http.get("./voice-script.json").then(function (data) {
         // console.log(data.data);
@@ -48,11 +56,11 @@ app.controller('voiceCtrl', function ($scope, $http) {
                     shadowOffset: 20,
                     shadowScale: 0.94,
                 },
-                autoplay: {
-                    delay: 2500,
-                    disableOnInteraction: false,
-                    // stopOnLast: true
-                },
+                // autoplay: {
+                //     delay: 2500,
+                //     disableOnInteraction: false,
+                //     // stopOnLast: true
+                // },
                 navigation: {
                     nextEl: '.swiper-button-next',
                     prevEl: '.swiper-button-prev',
@@ -62,19 +70,19 @@ app.controller('voiceCtrl', function ($scope, $http) {
                 swiper.autoplay.stop();
             })
         }, 1000);
-        $scope.setModule(1);
+        $scope.setModule($stateParams.module);
     });
     $scope.setModule = function (mod) {
         $scope.mod = mod;
         var start = (mod - 1) * 80;
         var end = mod == 4 ? 338 : (start + 80);
-        $scope.moduleWise = $scope.script.slice(start, end);
-        if (mod > 1) {
-            swiper.slideTo(0, 1000, false);
-            setTimeout(() => {
-                swiper.autoplay.start();
-            }, 1000);
-        }
+        $scope.moduleWise = _.shuffle($scope.script.slice(start, end));
+        // if (mod > 1) {
+        //     swiper.slideTo(0, 1000, false);
+        //     setTimeout(() => {
+        //         swiper.autoplay.start();
+        //     }, 1000);
+        // }
         console.log($scope.moduleWise.length);
     }
 
@@ -95,6 +103,7 @@ app.controller('voiceCtrl', function ($scope, $http) {
     $scope.stopBtn = true;
 
     $scope.startRecording = function () {
+        swiper.autoplay.start();
         var constraints = {
             audio: true,
             video: false
@@ -130,9 +139,11 @@ app.controller('voiceCtrl', function ($scope, $http) {
     $scope.pauseRecording = function () {
         console.log("pauseButton clicked rec.recording=", rec.recording);
         if (rec.recording) {
+            swiper.autoplay.stop();
             rec.stop();
             pauseButton.innerHTML = "Resume";
         } else {
+            swiper.autoplay.start();
             rec.record()
             pauseButton.innerHTML = "Pause";
 
@@ -140,6 +151,7 @@ app.controller('voiceCtrl', function ($scope, $http) {
     }
 
     $scope.stopRecording = function () {
+        swiper.autoplay.stop();
         console.log("stopButton clicked");
         $scope.stopBtn = true;
         $scope.recordBtn = false;
@@ -184,7 +196,7 @@ app.config(function (
             controller: "loginCtrl"
         })
         .state("voice", {
-            url: "/voice",
+            url: "/voice/:module",
             templateUrl: "voice-sample.html",
             controller: "voiceCtrl"
         })
