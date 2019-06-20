@@ -34,6 +34,11 @@
         </div>
         <div id="formats" style="color:white">Format: start recording to see sample rate</div>
         <h3 style="color:white">Recordings</h3>
-        <ol id="recordingsList"></ol>
+        <ol ng-if="recordings.length > 0">
+            <li ng-repeat="record in recordings" ng-if="record">
+                <audio controls ng-src="{{record.url}}">
+                </audio>
+                <a ng-href="{{record.url}}" download="{{record.fileName}}">Save to disk</a></li>
+        </ol>
     </div>
 </div>

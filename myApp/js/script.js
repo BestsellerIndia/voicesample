@@ -53,7 +53,8 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
         $state.go("login");
     }
     var swiper = null;
-    $scope.moduleDivider = 80;
+    $scope.moduleDivider = 7;
+    $scope.recordings = [];
     $scope.getNumber = function (num) {
         return new Array(num);
     }
@@ -86,6 +87,10 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
             });
             swiper.on('reachEnd', function () {
                 swiper.autoplay.stop();
+                setTimeout(() => {
+                    $scope.stopRecording();
+                    $scope.$apply();
+                }, 2500);
             })
         }, 1000);
         $scope.noOfModule = _.round($scope.script.length / $scope.moduleDivider);
@@ -103,7 +108,6 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
         //         swiper.autoplay.start();
         //     }, 1000);
         // }
-        console.log($scope.moduleWise.length);
     }
 
     //webkitURL is deprecated but nevertheless
@@ -185,24 +189,17 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
     function createDownloadLink(blob) {
 
         var url = URL.createObjectURL(blob);
-        var au = document.createElement('audio');
-        var li = document.createElement('li');
-        var link = document.createElement('a');
 
         var filename = new Date().toISOString();
-        au.controls = true;
-        au.src = url;
 
-        link.href = url;
-        link.download = filename + ".wav";
-        link.innerHTML = "Save to disk";
-        li.appendChild(au);
-        li.appendChild(document.createTextNode(filename + ".wav "))
-        li.appendChild(link);
-        recordingsList.appendChild(li);
+        download = filename + ".wav";
+        $scope.recordings.push({
+            url: url,
+            filename: download
+        })
+        $scope.$apply();
     }
 });
-// Link all the JS Docs here
 
 // Define all the routes below
 app.config(function (
