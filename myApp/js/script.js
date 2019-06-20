@@ -33,9 +33,7 @@ app.controller('loginCtrl', function ($scope, $http, $state) {
                         })
                         .then(function (data1) {
                             $.jStorage.set("user", data1.data.data);
-                            $state.go('voice', {
-                                module: data1.data.data.module
-                            });
+                            $state.go('home');
                         })
                 } else {
                     $scope.error = true;
@@ -49,12 +47,16 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
     } else {
         $scope.user = $.jStorage.get("user");
     }
-
+    $scope.currentModule = $stateParams.module;
     $scope.logout = function () {
         $.jStorage.flush();
         $state.go("login");
     }
     var swiper = null;
+    $scope.moduleDivider = 80;
+    $scope.getNumber = function (num) {
+        return new Array(num);
+    }
     $http.get("./voice-script.json").then(function (data) {
         // console.log(data.data);
         $scope.script = data.data;
@@ -86,12 +88,14 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
                 swiper.autoplay.stop();
             })
         }, 1000);
+        $scope.noOfModule = _.round($scope.script.length / $scope.moduleDivider);
+        $scope.moduleArray = new Array($scope.noOfModule);
         $scope.setModule($stateParams.module);
     });
     $scope.setModule = function (mod) {
         $scope.mod = mod;
-        var start = (mod - 1) * 80;
-        var end = mod == 4 ? 338 : (start + 80);
+        var start = (mod - 1) * $scope.moduleDivider;
+        var end = mod == 4 ? 338 : (start + $scope.moduleDivider);
         $scope.moduleWise = _.shuffle($scope.script.slice(start, end));
         // if (mod > 1) {
         //     swiper.slideTo(0, 1000, false);
@@ -210,6 +214,11 @@ app.config(function (
             url: "/login",
             templateUrl: "login.html",
             controller: "loginCtrl"
+        })
+        .state("home", {
+            url: "/home",
+            templateUrl: "home.html",
+            controller: "voiceCtrl"
         })
         .state("voice", {
             url: "/voice/:module",

@@ -1,0 +1,37 @@
+<div>
+    <div class="title">
+        <header id="header">
+            <a class="logo" title="BESTSELLER"><img src="img/logo.png" alt="Best Seller" /></a>
+        </header>
+        <h2 style="color:white">Voice Recorder Portal</h2>
+    </div>
+    <div class="header-bar">
+        <span class="name">Hi, {{user.name}}</span>
+        <span class="logout" ng-click="logout()">Logout</span>
+    </div>
+    <div class="module">
+        <h3>Modules</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Completed</h4>
+                <div id="controls" ng-repeat="btn in moduleArray track by $index" ng-if="$index+1 < user.module">
+                    <button disabled>Module {{$index+1}}</button>
+                </div>
+                <div ng-if="user.module == 1">
+                    <h4 style="color:red">You have not yet completed any module.</h4>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h4>Pending</h4>
+                <div id="controls" ng-repeat="btn in moduleArray track by $index" ng-if="$index+1 >= user.module">
+                    <button ng-disabled="user.module != ($index+1)" ui-sref="voice({module:($index+1)})">Module
+                        {{$index+1}}</button>
+                </div>
+                <div ng-if="user.module == moduleArray.length+1">
+                    <h4 style="color:green">You have done with all module.</h4>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
