@@ -57,9 +57,9 @@ app.post('/api/employee/getModule', function (req, res) {
         res.send(result);
     });
 });
-app.get('/files', function (req, res) {
+app.get('/readFiles/:filename', function (req, res) {
     gfs.files.findOne({
-        filename: '3110f245935bc7a086d05116d52fa296.wav'
+        filename: req.params.filename
     }, function (err, file) {
         const readStream = gfs.createReadStream(file.filename);
         readStream.pipe(res);
