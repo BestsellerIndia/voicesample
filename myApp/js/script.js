@@ -1,6 +1,7 @@
 var app = angular.module('app', ['ui.router']);
 var bestConnectUrl = "https://mybestconnect.bestseller.com/Employees/login";
-var voicePortalUrl = "http://localhost:8080/api/"
+var voicePortalUrl = "http://fdd9c7a7.ngrok.io/api/";
+
 
 app.controller('loginCtrl', function ($scope, $http, $state) {
     if (!_.isEmpty($.jStorage.get("user"))) {
@@ -200,6 +201,8 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
         $scope.$apply();
     }
 });
+
+
 
 // Define all the routes below
 app.config(function (
