@@ -6,7 +6,9 @@ var ObjectId = require('mongodb').ObjectID;
 var async = require('async');
 var multer = require('multer');
 var fs = require('fs');
-
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://127.0.0.1:27017/";
+var db = "mydb";
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
     extended: true
@@ -29,7 +31,7 @@ const path = require('path');
 const GridFsStorage = require('multer-gridfs-storage');
 
 var storage = new GridFsStorage({
-    url: 'mongodb://localhost:27017/mydb',
+    url: url + db,
     file: (req, file) => {
         return new Promise((resolve, reject) => {
             crypto.randomBytes(16, (err, buf) => {
@@ -126,8 +128,6 @@ app.post('/api/voice/upload', upload.single('voiceFile'), function (req, res) {
     })
 });
 
-var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://127.0.0.1:27017/";
 
 MongoClient.connect(url, {
     useNewUrlParser: true
@@ -136,7 +136,7 @@ MongoClient.connect(url, {
     dbo = db;
 });
 
-const conn = mongoose.createConnection('mongodb://localhost:27017/mydb');
+const conn = mongoose.createConnection(url + db);
 conn.once('open', function () {
     global.gfs = Grid(conn.db, mongoose.mongo);
     global.gfs.collection('uploads');
