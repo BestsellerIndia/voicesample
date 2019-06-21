@@ -1,19 +1,19 @@
-var express = require("express");
-var multer = require('multer');
-var app = express();
-var bodyParser = require('body-parser');
-var ObjectId = require('mongodb').ObjectID;
-var async = require('async');
-var multer = require('multer');
-var fs = require('fs');
-var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://127.0.0.1:27017/";
-var db = "mydb";
+global.express = require("express");
+global.multer = require('multer');
+global.app = express();
+global.bodyParser = require('body-parser');
+global.ObjectId = require('mongodb').ObjectID;
+global.async = require('async');
+global.multer = require('multer');
+global.fs = require('fs');
+global.MongoClient = require('mongodb').MongoClient;
+global.url = "mongodb://127.0.0.1:27017/";
+global.db = "mydb";
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
     extended: true
 }))
-var mongoose = require('mongoose');
+global.mongoose = require('mongoose');
 
 global.Grid = require('gridfs-stream');
 
@@ -25,12 +25,11 @@ app.get("/", function (req, res, next) {
     res.redirect("/");
 });
 
+global.crypto = require('crypto');
+global.path = require('path');
+global.GridFsStorage = require('multer-gridfs-storage');
 
-const crypto = require('crypto');
-const path = require('path');
-const GridFsStorage = require('multer-gridfs-storage');
-
-var storage = new GridFsStorage({
+global.storage = new GridFsStorage({
     url: url + db,
     file: (req, file) => {
         return new Promise((resolve, reject) => {
@@ -48,86 +47,9 @@ var storage = new GridFsStorage({
         });
     }
 });
-const upload = multer({
+global.upload = multer({
     storage
 });
-
-
-app.post('/api/employee/save', function (req, res) {
-    var db1 = dbo.db("mydb");
-    console.log(req.body);
-    db1.collection("employee").findOneAndUpdate({
-            'code': req.body.code
-        }, {
-            $setOnInsert: {
-                code: req.body.code,
-                name: req.body.name,
-                module: 1
-            }
-        }, {
-            new: true,
-            upsert: true
-        },
-        function (err, result) {
-            console.log(result);
-            res.send({
-                error: err,
-                data: result.value ? result.value : {
-                    _id: result.lastErrorObject.upserted,
-                    code: req.body.code,
-                    name: req.body.name,
-                    module: 1
-                }
-            });
-        }
-    )
-});
-app.post('/api/employee/updateModule', function (req, res) {
-    var db1 = dbo.db("mydb");
-    console.log(req.body);
-    db1.collection("employee").findOneAndUpdate({
-            _id: ObjectId(req.body._id)
-        }, {
-            $set: {
-                module: req.body.module + 1
-            }
-        }, {
-            new: true
-        },
-        function (err, result) {
-            console.log(result);
-            res.send(result);
-        }
-    )
-});
-app.post('/api/employee/getModule', function (req, res) {
-    var db1 = dbo.db("mydb");
-    console.log(req.body);
-    db1.collection("employee").findOne({
-        "_id": ObjectId(req.body._id)
-    }, function (err, result) {
-        console.log(result);
-        res.send(result);
-    });
-});
-app.get('/files', function (req, res) {
-    gfs.files.findOne({
-        filename: '3110f245935bc7a086d05116d52fa296.wav'
-    }, function (err, file) {
-        const readStream = gfs.createReadStream(file.filename);
-        readStream.pipe(res);
-        // res.json(files);
-    })
-})
-
-
-app.post('/api/voice/upload', upload.single('voiceFile'), function (req, res) {
-    console.log(req.file);
-    res.json({
-        file: req.file
-    })
-});
-
 
 MongoClient.connect(url, {
     useNewUrlParser: true
