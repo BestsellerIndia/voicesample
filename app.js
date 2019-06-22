@@ -65,3 +65,4 @@ conn.once('open', function () {
 })
 app.listen(process.env.PORT || 8080);
 console.log("Server is Listening on port 8080");
+global.api = require("./api")(app);
