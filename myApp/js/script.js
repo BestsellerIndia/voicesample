@@ -199,6 +199,12 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
             url: url,
             filename: download
         })
+        var formData = new FormData();
+        formData.append("file", url, download);
+        $http.post(voicePortalUrl + "upload", formData)
+            .then(function (data) {
+                console.log("data");
+            })
         $scope.$apply();
     }
 });
