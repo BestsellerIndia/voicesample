@@ -45,11 +45,9 @@ module.exports = function (app) {
         )
     });
     app.post('/api/employee/getModule', function (req, res) {
-        console.log(req.body);
         dbo.collection("employee").findOne({
             "_id": ObjectId(req.body._id)
         }, function (err, result) {
-            console.log(result);
             res.send(result);
         });
     });

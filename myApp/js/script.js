@@ -49,13 +49,14 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
     } else {
         $scope.user = $.jStorage.get("user");
     }
+    $scope.doneModule = false;
     $scope.currentModule = $stateParams.module;
     $scope.logout = function () {
         $.jStorage.flush();
         $state.go("login");
     }
     var swiper = null;
-    $scope.moduleDivider = 80;
+    $scope.moduleDivider = 5;
     $scope.recordings = [];
     $scope.getNumber = function (num) {
         return new Array(num);
@@ -91,14 +92,24 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
                 setTimeout(() => {
                     swiper.autoplay.stop();
                     $scope.stopRecording();
+                    $scope.doneModule = true;
                     $scope.$apply();
                 }, 2500);
             })
-        }, 1000);
+        }, 2000);
         $scope.noOfModule = _.round($scope.script.length / $scope.moduleDivider);
         $scope.moduleArray = new Array($scope.noOfModule);
         $scope.setModule($stateParams.module);
     });
+    $scope.nextModule = function () {
+        $http.post(voicePortalUrl + "employee/updateModule", {
+            _id: $scope.user._id,
+            module: parseInt($stateParams.module)
+        }).then(function (data) {
+            console.log("done");
+            $state.go("home");
+        })
+    }
     $scope.setModule = function (mod) {
         $scope.mod = mod;
         var start = (mod - 1) * $scope.moduleDivider;
@@ -219,6 +230,24 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
         $scope.$apply();
     }
 });
+app.controller('homeCtrl', function ($scope, $http, $stateParams, $state) {
+    if (_.isEmpty($.jStorage.get("user"))) {
+        $state.go("login");
+    }
+    $http.post(voicePortalUrl + "employee/getModule", {
+        _id: $scope.user._id
+    }).then(function (data) {
+        $scope.user = data.data;
+    })
+    $scope.logout = function () {
+        $.jStorage.flush();
+        $state.go("login");
+    }
+    $scope.getNumber = function (num) {
+        return new Array(num);
+    }
+
+});
 
 
 
@@ -236,12 +265,14 @@ app.config(function (
         .state("home", {
             url: "/home",
             templateUrl: "home.html",
-            controller: "voiceCtrl"
+            controller: "homeCtrl",
+            cache: false
         })
         .state("voice", {
             url: "/voice/:module",
             templateUrl: "voice-sample.html",
-            controller: "voiceCtrl"
+            controller: "voiceCtrl",
+            cache: false
         })
 
     $urlRouterProvider.otherwise("/login");

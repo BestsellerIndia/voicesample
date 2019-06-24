@@ -27,10 +27,13 @@
         <div class="swiper-button-prev"></div>
     </div>
     <div style="width:50%;margin: 0 auto; text-align: center">
-        <div id="controls">
+        <div id="controls" ng-if="!doneModule">
             <button id="recordButton" ng-click="startRecording()" ng-disabled="recordBtn">Record</button>
             <button id="pauseButton" ng-click="pauseRecording()" ng-disabled="pauseBtn">Pause</button>
             <button id="stopButton" ng-click="stopRecording()" ng-disabled="stopBtn">Stop</button>
+        </div>
+        <div id="controls" ng-if="doneModule">
+            <button id="recordButton" ng-click="nextModule()">Proceed To Next Module</button>
         </div>
         <div id="formats" style="color:white">Format: start recording to see sample rate</div>
         <h3 style="color:white">Recordings</h3>
