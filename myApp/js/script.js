@@ -198,6 +198,9 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
         gumStream.getAudioTracks()[0].stop();
         rec.exportWAV(createDownloadLink);
     }
+    window.onbeforeunload = function (event) {
+        event.returnValue = "Are you sure you want to reload?";
+    };
 
     function createDownloadLink(blob) {
 
@@ -205,13 +208,14 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
 
         var filename = new Date().toISOString();
 
-        download = filename + ".wav";
+        download = $scope.user._id + "_module" + $stateParams.module + "_"
+        filename + ".wav";
         $scope.recordings.push({
             url: url,
             filename: download
         })
         var formData = new FormData();
-        formData.append("voiceFile", blob);
+        formData.append("voiceFile", blob, download);
         $http.post(voicePortalUrl + "voice/upload", formData, {
                 headers: {
                     "Content-Type": undefined
@@ -222,7 +226,8 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
                 console.log(data);
                 $http.post(voicePortalUrl + "employee/addVoiceSample", {
                     _id: $scope.user._id,
-                    filename: data.data.file.filename
+                    file: data.data.file.filename,
+                    filename: download
                 }).then(function (data) {
                     console.log("done");
                 })
@@ -235,7 +240,7 @@ app.controller('homeCtrl', function ($scope, $http, $stateParams, $state) {
         $state.go("login");
     }
     $http.post(voicePortalUrl + "employee/getModule", {
-        _id: $scope.user._id
+        _id: $.jStorage.get("user")._id
     }).then(function (data) {
         $scope.user = data.data;
     })

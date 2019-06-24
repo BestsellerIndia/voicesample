@@ -71,7 +71,8 @@ module.exports = function (app) {
                 _id: ObjectId(req.body._id)
             }, {
                 $addToSet: {
-                    file: req.body.filename
+                    file: req.body.file,
+                    filename: req.body.filename
                 }
             }, {
                 new: true
