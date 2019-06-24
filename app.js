@@ -8,7 +8,7 @@ global.multer = require('multer');
 global.fs = require('fs');
 // global.MongoClient = require('mongodb').MongoClient;
 global.url = "mongodb://127.0.0.1:27017/";
-global.db = "mydb";
+global.db = "voice-portal";
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
     extended: true,

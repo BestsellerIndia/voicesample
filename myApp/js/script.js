@@ -55,7 +55,7 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
         $state.go("login");
     }
     var swiper = null;
-    $scope.moduleDivider = 7;
+    $scope.moduleDivider = 80;
     $scope.recordings = [];
     $scope.getNumber = function (num) {
         return new Array(num);
@@ -88,8 +88,8 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
                 },
             });
             swiper.on('reachEnd', function () {
-                swiper.autoplay.stop();
                 setTimeout(() => {
+                    swiper.autoplay.stop();
                     $scope.stopRecording();
                     $scope.$apply();
                 }, 2500);
