@@ -51,7 +51,7 @@ module.exports = function (app) {
             res.send(result);
         });
     });
-    app.get('/readFiles/:filename', function (req, res) {
+    app.get('/api/readFiles/:filename', function (req, res) {
         gfs.files.findOne({
             filename: req.params.filename
         }, function (err, file) {
