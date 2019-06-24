@@ -113,7 +113,7 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
     $scope.setModule = function (mod) {
         $scope.mod = mod;
         var start = (mod - 1) * $scope.moduleDivider;
-        var end = (mod == $scope.script.length / $scope.moduleDivider) ? 338 : (start + $scope.moduleDivider);
+        var end = (mod == _.round($scope.script.length / $scope.moduleDivider)) ? 338 : (start + $scope.moduleDivider);
         $scope.moduleWise = _.shuffle($scope.script.slice(start, end));
         // if (mod > 1) {
         //     swiper.slideTo(0, 1000, false);
