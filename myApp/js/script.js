@@ -43,7 +43,7 @@ app.controller('loginCtrl', function ($scope, $http, $state) {
             })
     }
 });
-app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state, $rootScope) {
+app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
     if (_.isEmpty($.jStorage.get("user"))) {
         $state.go("login");
     } else {
@@ -198,14 +198,7 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state, $root
         gumStream.getAudioTracks()[0].stop();
         rec.exportWAV(createDownloadLink);
     }
-    $rootScope.$on('$stateChangeStart',
-        function (event, toState, toParams, fromState, fromParams) {
-            if (fromState.name === "voice") {
-                window.onbeforeunload = function (event) {
-                    event.returnValue = "Are you sure you want to reload?";
-                };
-            }
-        })
+
 
 
     function createDownloadLink(blob) {
