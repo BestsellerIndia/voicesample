@@ -198,9 +198,11 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
         gumStream.getAudioTracks()[0].stop();
         rec.exportWAV(createDownloadLink);
     }
-    window.onbeforeunload = function (event) {
-        event.returnValue = "Are you sure you want to reload?";
-    };
+    if ($state.current.name === "voice") {
+        window.onbeforeunload = function (event) {
+            event.returnValue = "Are you sure you want to reload?";
+        };
+    }
 
     function createDownloadLink(blob) {
 
@@ -208,8 +210,8 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
 
         var filename = new Date().toISOString();
 
-        download = $scope.user._id + "_module" + $stateParams.module + "_"
-        filename + ".wav";
+        download = $scope.user._id + "_module" + $stateParams.module + "_" +
+            filename + ".wav";
         $scope.recordings.push({
             url: url,
             filename: download
