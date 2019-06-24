@@ -1,7 +1,7 @@
 var app = angular.module('app', ['ui.router']);
 var bestConnectUrl = "https://mybestconnect.bestseller.com/Employees/login";
-// var voicePortalUrl = "http://fdd9c7a7.ngrok.io/api/";
-var voicePortalUrl = "http://localhost:8080/api/";
+var voicePortalUrl = "https://4efd7526.ngrok.io/api/";
+// var voicePortalUrl = "http://localhost:8080/api/";
 
 
 app.controller('loginCtrl', function ($scope, $http, $state) {
@@ -200,11 +200,22 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
             filename: download
         })
         var formData = new FormData();
-        formData.append("file", url, download);
-        $http.post(voicePortalUrl + "upload", formData)
-            .then(function (data) {
-                console.log("data");
+        formData.append("voiceFile", blob);
+        $http.post(voicePortalUrl + "voice/upload", formData, {
+                headers: {
+                    "Content-Type": undefined
+                },
+                transformRequest: angular.identity
             })
+            .then(function (data) {
+                console.log(data);
+                $http.post(voicePortalUrl + "employee/addVoiceSample", {
+                    _id: $scope.user._id,
+                    filename: data.data.file.filename
+                }).then(function (data) {
+                    console.log("done");
+                })
+            });
         $scope.$apply();
     }
 });

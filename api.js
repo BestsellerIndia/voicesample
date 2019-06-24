@@ -1,8 +1,7 @@
 module.exports = function (app) {
     app.post('/api/employee/save', function (req, res) {
-        var db1 = dbo.db("mydb");
         console.log(req.body);
-        db1.collection("employee").findOneAndUpdate({
+        dbo.collection("employee").findOneAndUpdate({
                 'code': req.body.code
             }, {
                 $setOnInsert: {
@@ -29,9 +28,8 @@ module.exports = function (app) {
         )
     });
     app.post('/api/employee/updateModule', function (req, res) {
-        var db1 = dbo.db("mydb");
         console.log(req.body);
-        db1.collection("employee").findOneAndUpdate({
+        dbo.collection("employee").findOneAndUpdate({
                 _id: ObjectId(req.body._id)
             }, {
                 $set: {
@@ -47,9 +45,8 @@ module.exports = function (app) {
         )
     });
     app.post('/api/employee/getModule', function (req, res) {
-        var db1 = dbo.db("mydb");
         console.log(req.body);
-        db1.collection("employee").findOne({
+        dbo.collection("employee").findOne({
             "_id": ObjectId(req.body._id)
         }, function (err, result) {
             console.log(result);
@@ -65,12 +62,25 @@ module.exports = function (app) {
             // res.json(files);
         })
     })
-
-
     app.post('/api/voice/upload', upload.single('voiceFile'), function (req, res) {
         console.log(req.file);
         res.json({
             file: req.file
         })
+    });
+    app.post('/api/employee/addVoiceSample', function (req, res) {
+        dbo.collection("employee").findOneAndUpdate({
+                _id: ObjectId(req.body._id)
+            }, {
+                $addToSet: {
+                    file: req.body.filename
+                }
+            }, {
+                new: true
+            },
+            function (err, result) {
+                res.send("done");
+            }
+        )
     });
 }

@@ -6,19 +6,22 @@ global.ObjectId = require('mongodb').ObjectID;
 global.async = require('async');
 global.multer = require('multer');
 global.fs = require('fs');
-global.MongoClient = require('mongodb').MongoClient;
+// global.MongoClient = require('mongodb').MongoClient;
 global.url = "mongodb://127.0.0.1:27017/";
 global.db = "mydb";
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
-    extended: true
+    extended: true,
+    limit: '110mb'
 }))
 global.mongoose = require('mongoose');
 
 global.Grid = require('gridfs-stream');
 
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json({
+    limit: '50mb'
+}))
 global.dbo = {};
 app.use(express.static("myApp")); // myApp will be the same folder name.
 app.get("/", function (req, res, next) {
@@ -51,15 +54,18 @@ global.upload = multer({
     storage
 });
 
-MongoClient.connect(url, {
-    useNewUrlParser: true
-}, function (err, db) {
-    if (err) throw err;
-    dbo = db;
-});
+// MongoClient.connect(url, {
+//     useNewUrlParser: true
+// }, function (err, db) {
+//     if (err) throw err;
+//     dbo = db;
+// });
 
-const conn = mongoose.createConnection(url + db);
+const conn = mongoose.createConnection(url + db, {
+    useNewUrlParser: true
+});
 conn.once('open', function () {
+    dbo = conn.db;
     global.gfs = Grid(conn.db, mongoose.mongo);
     global.gfs.collection('uploads');
 })
