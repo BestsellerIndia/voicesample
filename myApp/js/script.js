@@ -1,8 +1,8 @@
 var app = angular.module('app', ['ui.router']);
 var bestConnectUrl = "https://mybestconnect.bestseller.com/Employees/login";
-var voicePortalUrl = "https://4efd7526.ngrok.io/api/";
-// var voicePortalUrl = "http://localhost:8080/api/";
-
+// var voicePortalUrl = "https://4efd7526.ngrok.io/api/";
+var voicePortalUrl = "http://10.91.4.182:8080/api/";
+var moduleDivider = 5;
 
 app.controller('loginCtrl', function ($scope, $http, $state) {
     if (!_.isEmpty($.jStorage.get("user"))) {
@@ -49,6 +49,7 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
     } else {
         $scope.user = $.jStorage.get("user");
     }
+
     $scope.doneModule = false;
     $scope.currentModule = $stateParams.module;
     $scope.logout = function () {
@@ -56,11 +57,7 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
         $state.go("login");
     }
     var swiper = null;
-    $scope.moduleDivider = 5;
     $scope.recordings = [];
-    $scope.getNumber = function (num) {
-        return new Array(num);
-    }
     $http.get("./voice-script.json").then(function (data) {
         // console.log(data.data);
         $scope.script = data.data;
@@ -96,9 +93,13 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
                     $scope.$apply();
                 }, 2500);
             })
+            // swiper.slideTo(4, 500, function () {
+            //     console.log("done");
+            // });
         }, 2000);
-        $scope.noOfModule = _.round($scope.script.length / $scope.moduleDivider);
+        $scope.noOfModule = _.round($scope.script.length / moduleDivider);
         $scope.moduleArray = new Array($scope.noOfModule);
+
         $scope.setModule($stateParams.module);
     });
     $scope.nextModule = function () {
@@ -112,9 +113,10 @@ app.controller('voiceCtrl', function ($scope, $http, $stateParams, $state) {
     }
     $scope.setModule = function (mod) {
         $scope.mod = mod;
-        var start = (mod - 1) * $scope.moduleDivider;
-        var end = (mod == _.round($scope.script.length / $scope.moduleDivider)) ? 338 : (start + $scope.moduleDivider);
-        $scope.moduleWise = _.shuffle($scope.script.slice(start, end));
+        var start = (mod - 1) * moduleDivider;
+        var end = (mod == _.round($scope.script.length / moduleDivider)) ? 338 : (start + moduleDivider);
+        // $scope.moduleWise = _.shuffle($scope.script.slice(start, end));
+        $scope.moduleWise = $scope.script.slice(start, end);
         // if (mod > 1) {
         //     swiper.slideTo(0, 1000, false);
         //     setTimeout(() => {
@@ -238,6 +240,13 @@ app.controller('homeCtrl', function ($scope, $http, $stateParams, $state) {
     if (_.isEmpty($.jStorage.get("user"))) {
         $state.go("login");
     }
+    $http.get("./voice-script.json").then(function (data) {
+        // console.log(data.data);
+        $scope.script = data.data;
+        $scope.scriptActive = 0;
+        $scope.noOfModule = _.round($scope.script.length / moduleDivider);
+        $scope.moduleArray = new Array($scope.noOfModule);
+    });
     $http.post(voicePortalUrl + "employee/getModule", {
         _id: $.jStorage.get("user")._id
     }).then(function (data) {
@@ -246,9 +255,6 @@ app.controller('homeCtrl', function ($scope, $http, $stateParams, $state) {
     $scope.logout = function () {
         $.jStorage.flush();
         $state.go("login");
-    }
-    $scope.getNumber = function (num) {
-        return new Array(num);
     }
 
 });
