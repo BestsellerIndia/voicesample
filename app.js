@@ -86,6 +86,7 @@ const conn = mongoose.createConnection(url + db, {
     useNewUrlParser: true
 });
 conn.once('open', function () {
+    console.log(conn.db);
     dbo = conn.db;
     global.gfs = Grid(conn.db, mongoose.mongo);
     global.gfs.collection('uploads');
