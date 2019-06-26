@@ -1,7 +1,7 @@
 var app = angular.module('app', ['ui.router']);
 var bestConnectUrl = "https://mybestconnect.bestseller.com/Employees/login";
 // var voicePortalUrl = "https://4efd7526.ngrok.io/api/";
-var voicePortalUrl = "http://10.91.4.182:8080/api/";
+var voicePortalUrl = "https://10.91.4.182:8080/api/";
 var moduleDivider = 5;
 
 app.controller('loginCtrl', function ($scope, $http, $state) {
