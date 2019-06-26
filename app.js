@@ -9,6 +9,27 @@ global.fs = require('fs');
 // global.MongoClient = require('mongodb').MongoClient;
 global.url = "mongodb://127.0.0.1:27017/";
 global.db = "voice-portal";
+var cert1 = fs.readFileSync('cert.crt');
+var key1 = fs.readFileSync('key.pem');
+var ca1 = fs.readFileSync('RootCA.crt');
+
+var options = {
+    pfx: fs.readFileSync('cert_new.pfx'),
+    cert: cert1,
+    key: key1,
+    passphrase: 'dRduvnJGmiEO1tklnJ0gN4clwymklX7NuwlPEcPB5',
+    ca: ca1
+    // rejectUnauthorized: true,
+    // requestCert: true,
+    //agent: false
+};
+
+// var http = require('http');
+// http.createServer(server).listen(port, function() {
+//     console.log('HTTP Server running on port: %d', port);
+// });
+
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
     extended: true,
@@ -69,6 +90,11 @@ conn.once('open', function () {
     global.gfs = Grid(conn.db, mongoose.mongo);
     global.gfs.collection('uploads');
 })
-app.listen(process.env.PORT || 8080);
-console.log("Server is Listening on port 8080");
+// app.listen(process.env.PORT || 8080);
+
+var https = require('https');
+https.createServer(options, app).listen(process.env.PORT || 8080, function () {
+    console.log('HTTPS Server running on port: %d', process.env.PORT || 8080);
+    // console.log("Server is Listening on port 8080");
+});
 global.api = require("./api")(app);
