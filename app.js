@@ -15,10 +15,11 @@ var key1 = fs.readFileSync('key.pem');
 var ca1 = fs.readFileSync('RootCA.crt');
 
 var options = {
-    pfx: fs.readFileSync('cert_new.pfx'),
+    pfx: fs.readFileSync('cert_new1.pfx'),
     // cert: cert1,
     // key: key1,
-    passphrase: 'n6Cow2gSEiBvj5rbon7EXbigKt',
+    // passphrase: 'n6Cow2gSEiBvj5rbon7EXbigKt',
+    passphrase: 'dRduvnJGmiEO1tklnJ0gN4clwymklX7NuwlPEcPB5',
     ca: ca1
     // rejectUnauthorized: true,
     // requestCert: true,
