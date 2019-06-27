@@ -9,15 +9,16 @@ global.fs = require('fs');
 // global.MongoClient = require('mongodb').MongoClient;
 global.url = "mongodb://127.0.0.1:27017/";
 global.db = "voice-portal";
+
 var cert1 = fs.readFileSync('cert.crt');
 var key1 = fs.readFileSync('key.pem');
 var ca1 = fs.readFileSync('RootCA.crt');
 
 var options = {
-    // pfx: fs.readFileSync('cert_new.pfx'),
-    cert: cert1,
-    key: key1,
-    // passphrase: 'dRduvnJGmiEO1tklnJ0gN4clwymklX7NuwlPEcPB5',
+    pfx: fs.readFileSync('cert_new.pfx'),
+    // cert: cert1,
+    // key: key1,
+    passphrase: 'n6Cow2gSEiBvj5rbon7EXbigKt',
     ca: ca1
     // rejectUnauthorized: true,
     // requestCert: true,
@@ -26,7 +27,7 @@ var options = {
 
 // var http = require('http');
 // http.createServer(server).listen(port, function() {
-//     console.log('HTTP Server running on port: %d', port);
+//     console.log('HTTP Server running on  port: %d', port);
 // });
 
 
