@@ -48,7 +48,7 @@ pipe.stdout.on('data', function (data) {
     });
 
     pipe1.on('close', (code) => {
-        callback('Process exited with code: ' + code);
+        console.log('Process exited with code: ' + code);
     });
 });
 
@@ -57,7 +57,7 @@ pipe.stderr.on('data', (data) => {
 });
 
 pipe.on('close', (code) => {
-    callback('Process exited with code: ' + code);
+    console.log('Process exited with code: ' + code);
 });
 
 // var http = require('http');
