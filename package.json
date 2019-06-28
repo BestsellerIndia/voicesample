@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "mongod --fork --dbpath /data/db --config /etc/mongod.conf && node app.js",
+    "start": "mongod && mongo && node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
