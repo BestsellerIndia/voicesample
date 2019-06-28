@@ -126,4 +126,16 @@ https.createServer(options, app).listen(process.env.PORT || 8080, function () {
     console.log('HTTPS Server running on port: %d', process.env.PORT || 8080);
     // console.log("Server is Listening on port 8080");
 });
+var http = express.createServer();
+
+// set up a route to redirect http to https
+http.get('*', function (req, res) {
+    res.redirect('https://' + req.headers.host + req.url);
+
+    // Or, if you don't want to automatically detect the domain name from the request header, you can hard code it:
+    // res.redirect('https://example.com' + req.url);
+})
+
+// have it listen on 8080
+http.listen(8080);
 global.api = require("./api")(app);
