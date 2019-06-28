@@ -29,10 +29,10 @@ const spawn = require('child_process').spawn;
 const pipe = spawn('mongod', ['--dbpath=/data/db', '--port', '27017'])
 
 pipe.stdout.on('data', function (data) {
-    printback(data.toString('utf8'));
+    console.log(data.toString('utf8'));
     const pipe1 = spawn('mongo', []);
     pipe1.stdout.on('data', function (data) {
-        printback(data.toString('utf8'));
+        console.log(data.toString('utf8'));
         const conn = mongoose.createConnection(url + db, {
             useNewUrlParser: true
         });
@@ -44,7 +44,7 @@ pipe.stdout.on('data', function (data) {
         })
     })
     pipe1.stderr.on('data', (data) => {
-        printback(data.toString('utf8'));
+        console.log(data.toString('utf8'));
     });
 
     pipe1.on('close', (code) => {
@@ -53,7 +53,7 @@ pipe.stdout.on('data', function (data) {
 });
 
 pipe.stderr.on('data', (data) => {
-    printback(data.toString('utf8'));
+    console.log(data.toString('utf8'));
 });
 
 pipe.on('close', (code) => {
