@@ -25,6 +25,40 @@ var options = {
     // requestCert: true,
     //agent: false
 };
+const spawn = require('child_process').spawn;
+const pipe = spawn('mongod', ['--dbpath=/data/db', '--port', '27017'])
+
+pipe.stdout.on('data', function (data) {
+    printback(data.toString('utf8'));
+    const pipe1 = spawn('mongo', []);
+    pipe1.stdout.on('data', function (data) {
+        printback(data.toString('utf8'));
+        const conn = mongoose.createConnection(url + db, {
+            useNewUrlParser: true
+        });
+        conn.once('open', function () {
+            console.log(conn.db);
+            dbo = conn.db;
+            global.gfs = Grid(conn.db, mongoose.mongo);
+            global.gfs.collection('uploads');
+        })
+    })
+    pipe1.stderr.on('data', (data) => {
+        printback(data.toString('utf8'));
+    });
+
+    pipe1.on('close', (code) => {
+        callback('Process exited with code: ' + code);
+    });
+});
+
+pipe.stderr.on('data', (data) => {
+    printback(data.toString('utf8'));
+});
+
+pipe.on('close', (code) => {
+    callback('Process exited with code: ' + code);
+});
 
 // var http = require('http');
 // http.createServer(server).listen(port, function() {
@@ -84,15 +118,7 @@ global.upload = multer({
 //     dbo = db;
 // });
 
-const conn = mongoose.createConnection(url + db, {
-    useNewUrlParser: true
-});
-conn.once('open', function () {
-    console.log(conn.db);
-    dbo = conn.db;
-    global.gfs = Grid(conn.db, mongoose.mongo);
-    global.gfs.collection('uploads');
-})
+
 // app.listen(process.env.PORT || 8080);
 
 var https = require('https');
