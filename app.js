@@ -127,11 +127,4 @@ https.createServer(options, app).listen(process.env.PORT || 8080, function () {
     // console.log("Server is Listening on port 8080");
 });
 
-var http = require('http');
-http.createServer(function (req, res) {
-    res.writeHead(301, {
-        "Location": "https://" + req.headers['host'] + req.url
-    });
-    res.end();
-}).listen(80);
 global.api = require("./api")(app);
