@@ -119,12 +119,12 @@ global.upload = multer({
 // });
 
 
-// app.listen(process.env.PORT || 8080);
+app.listen(process.env.PORT || 8080);
 
-var https = require('https');
-https.createServer(options, app).listen(process.env.PORT || 8080, function () {
-    console.log('HTTPS Server running on port: %d', process.env.PORT || 8080);
-    // console.log("Server is Listening on port 8080");
-});
+// var https = require('https');
+// https.createServer(options, app).listen(process.env.PORT || 8080, function () {
+//     console.log('HTTPS Server running on port: %d', process.env.PORT || 8080);
+//     // console.log("Server is Listening on port 8080");
+// });
 
 global.api = require("./api")(app);
